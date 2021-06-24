@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route, Redirect } from "react-router-dom";
+import Home from "./app/login";
+import Products from "./app/products";
+import Header from "./app/components/header";
+import ProductDetails from "./app/products/product-details";
+import Cart from "./app/cart";
+import AppRoute from "./AppRoute";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Switch>
+        <Route exact path="/login" component={Home} />
+        <Route exact path="/" render={() => <Redirect to="/products" />} />
+        <AppRoute
+          isPrivate={true}
+          exact
+          path="/products"
+          component={Products}
+        />
+        <AppRoute
+          exact
+          isPrivate={true}
+          path="/products/:id"
+          component={ProductDetails}
+        />
+        <AppRoute exact isPrivate={true} path="/cart" component={Cart} />
+      </Switch>
+    </>
   );
 }
 
